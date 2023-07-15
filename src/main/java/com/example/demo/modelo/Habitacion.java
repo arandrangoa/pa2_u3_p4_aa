@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="habitacion")
@@ -27,6 +28,10 @@ public class Habitacion {
 	
 	@Column(name="habi_valor")
 	private BigDecimal valor;
+	
+	//Este atributo no se va a mapear
+	@Transient
+	private BigDecimal valorIncludioIva;
 	
 	@ManyToOne
 	@JoinColumn(name="habi_id_hotel")
@@ -69,6 +74,14 @@ public class Habitacion {
 	@Override
 	public String toString() {
 		return "Habitacion [id=" + id + ", numero=" + numero + ", valor=" + valor + "]";
+	}
+
+	public BigDecimal getValorIncludioIva() {
+		return valorIncludioIva;
+	}
+
+	public void setValorIncludioIva(BigDecimal valorIncludioIva) {
+		this.valorIncludioIva = valorIncludioIva;
 	}
 	
 	

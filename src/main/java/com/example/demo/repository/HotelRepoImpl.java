@@ -24,8 +24,11 @@ public class HotelRepoImpl implements IhotelRepo{
 		//select * from hotel h inner join habitacion ha on h.htl_id=ha.habi_id_hotel
 		//select h from Hotel h join Habitacion h.habitaciones ha
 		TypedQuery<Hotel> myQuery=this.entityManager.createQuery("select h from Hotel h inner join h.habitaciones ha",Hotel.class);
-		
-		return myQuery.getResultList();
+		List<Hotel> listaHoteles=myQuery.getResultList();
+		for(Hotel h:listaHoteles) {
+			h.getHabitaciones().size();
+		}
+		return listaHoteles;
 		
 		//select f from Factura f join f.detalles de
 	}
@@ -72,6 +75,20 @@ public class HotelRepoImpl implements IhotelRepo{
 		TypedQuery<Hotel> myQuery=this.entityManager.createQuery("select h from Hotel h, Habitacion ha where h=ha.hotel",Hotel.class);
 		
 		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<Hotel> seleccionarFetchJoin() {
+		// TODO Auto-generated method stub
+		TypedQuery<Hotel> myQuery=this.entityManager.createQuery("select h from Hotel h join fetch h.habitaciones ha",Hotel.class);
+		
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public void insertar(Hotel hotel) {
+		// TODO Auto-generated method stub
+		this.entityManager.persist(hotel);
 	}
 
 	

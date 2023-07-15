@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,41 +27,50 @@ public class Pa2U3P4AaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		List<Hotel> listaHotel1=this.hotelService.buscarOuterRightJoin();
+		List<Hotel> listaHotel1=this.hotelService.buscarInnerJoin();
 		
-		System.out.println("***************SELECCIONAR OUTER RIGHT JOIN********************");
+		System.out.println("***************SELECCIONAR INNER JOIN CON LAZY********************");
 		for(Hotel h:listaHotel1) {
-			System.out.println(h);
+			System.out.println(h.getNombre());
+			System.out.println("Tiene las siguientes habitaciones:");
+			for(Habitacion ha:h.getHabitaciones()) {
+				System.out.println(ha.getNumero());
+			}
 		}
 		
-		List<Hotel> listaHotel2=this.hotelService.buscarOuterLeftJoin();
+		System.out.println("***************SELECCIONAR JOIN FETCHC********************");
 		
-		System.out.println("***************SELECCIONAR OUTER LEFT JOIN********************");
+		List<Hotel> listaHotel2=this.hotelService.buscarFetchJoin();
 		for(Hotel h:listaHotel2) {
-			System.out.println(h);
-		}
+			System.out.println(h.getNombre());
+			System.out.println(" FETCH Tiene las siguientes habitaciones:");
+			for(Habitacion ha:h.getHabitaciones()) {
+				System.out.println(ha.getNumero());
+			}
+		}	
 		
-		List<Habitacion> listaHotel3=this.hotelService.buscarHabitacionOuterLeftJoin();
+		Hotel h=new Hotel();
 		
-		System.out.println("***************SELECCIONAR HABITACIONES OUTER LEFT JOIN********************");
-		for(Habitacion h:listaHotel3) {
-			System.out.println(h);
-		}
+		Habitacion ha1=new Habitacion();
+		ha1.setNumero("T1");
+		ha1.setValor(new BigDecimal(50));
+		ha1.setHotel(h);
 		
-		List<Hotel> listaHotel4=this.hotelService.buscarFullOuterJoin();
 		
-		System.out.println("***************SELECCIONAR FULL OUTER JOIN********************");
-		for(Hotel h:listaHotel4) {
-			System.out.println(h);
-		}
+		Habitacion ha2=new Habitacion();
+		ha2.setNumero("T2");
+		ha2.setValor(new BigDecimal(80));
+		ha2.setHotel(h);
 		
-		List<Hotel> listaHotel5=this.hotelService.BuscarWhereJoin();
+		List<Habitacion> habitaciones=new ArrayList<>();
+		habitaciones.add(ha1);
+		habitaciones.add(ha2);
 		
-		System.out.println("***************SELECCIONAR WHERE JOIN********************");
-		for(Hotel h:listaHotel5) {
-			System.out.println(h);
-		}
+		h.setDireccion("Carcelen");
+		h.setHabitaciones(habitaciones);
+		h.setNombre("Travesia");
 		
+		this.hotelService.guardar(h);
 		
 		
 	}
