@@ -46,6 +46,7 @@ public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
 	}
 
 	@Override
+	@Transactional(value = TxType.REQUIRED)
 	public void actualizar(CuentaBancaria cuentaBancaria) {
 		// TODO Auto-generated method stub
 		this.bancariaRepo.actualizar(cuentaBancaria);

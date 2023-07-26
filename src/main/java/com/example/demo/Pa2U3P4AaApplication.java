@@ -9,13 +9,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.example.demo.modelo.CuentaBancaria;
+import com.example.demo.modelo.Transferencia;
 import com.example.demo.service.ICuentaBancariaService;
+import com.example.demo.service.ITransferenciaService;
 
 @SpringBootApplication
 public class Pa2U3P4AaApplication implements CommandLineRunner{
 	
 	@Autowired
 	private ICuentaBancariaService bancariaService;
+	
+	@Autowired
+	private ITransferenciaService iTransferenciaService;
 	
 
 	public static void main(String[] args) {
@@ -26,16 +31,8 @@ public class Pa2U3P4AaApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
+		this.iTransferenciaService.realizar("123456", "654321", new BigDecimal(10));
 		
-		
-		System.out.println("Main: "+TransactionSynchronizationManager.isActualTransactionActive());
-		
-		CuentaBancaria c=new CuentaBancaria();
-		c.setNumero("741852");
-		c.setSaldo(new BigDecimal(100));
-		c.setTipo("Ahorro");
-		
-		this.bancariaService.guardar(c);
 		
 	}
 }

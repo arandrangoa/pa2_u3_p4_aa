@@ -10,6 +10,9 @@ import com.example.demo.modelo.CuentaBancaria;
 import com.example.demo.modelo.Transferencia;
 import com.example.demo.repository.ITransferenciaRepo;
 
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
+
 @Service
 public class TransferenciaServiceImpl implements ITransferenciaService{
 
@@ -20,12 +23,14 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 	private ICuentaBancariaService bancariaService;
 	
 	@Override
+	@Transactional(value = TxType.REQUIRED)
 	public void insertar(Transferencia transferencia) {
 		// TODO Auto-generated method stub
 		this.iTransferenciaRepo.insertar(transferencia);
 	}
 
 	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void realizar(String ctaOrigen, String ctaDestino, BigDecimal monto) {
 		// TODO Auto-generated method stub
 		//Cuenta Origen
@@ -39,7 +44,7 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 				
 				//3-Validar si el saldo es suficiente
 				
-				if(montoDebitar.compareTo(saldoCtaOrigen)<=0) {
+			
 					//6-Si si es suficiente realizar la resta del saldo origen - monto
 					BigDecimal nuevoSaldoOrigen=saldoCtaOrigen.subtract(montoDebitar);
 					
@@ -73,12 +78,14 @@ public class TransferenciaServiceImpl implements ITransferenciaService{
 					
 					this.iTransferenciaRepo.insertar(transfer);
 					
-				}else {
-					//4-Si no es suficiente imprimir mensaje de no hay saldo suficiente
-					System.out.println("Saldo no disponible, su saldo es: "+saldoCtaOrigen);
+					
+					if(cuentaOrigen.getSaldo().compareTo(new BigDecimal(0))==-1) {
+						throw new RuntimeException();
+					}
+					
 				}
 				
-	}
+	
 
 	@Override
 	public List<Transferencia> seleccionarTodas() {
