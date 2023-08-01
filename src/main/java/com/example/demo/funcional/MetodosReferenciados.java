@@ -20,5 +20,17 @@ public class MetodosReferenciados {
 		Boolean b=valor.compareTo(7)==0;	
 		return b;
 	}
+	
+	public String aplicar(Integer valor) {
+		String valorFinal=valor.toString().concat("Alex");
+		
+		return valorFinal;
+		
+	}
+	
+	public Integer procesar(Integer numero) {
+		Integer valorFinal=numero+100;
+		return valorFinal;
+	}
 
 }
