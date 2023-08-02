@@ -7,28 +7,34 @@ public class MetodosReferenciados {
 	
 	private static final Logger LOG=LoggerFactory.getLogger(Main.class);
 	
-	public Integer getId() {
+	public static Integer getId() {
 		return 8;
 	}
 	
-	public void aceptar(String arg) {
+	public static String getIdHO() {
+		LOG.info("Metodos refernciados y HO");
+		return "Alex Andrango";
+		}
+	
+	
+	public static void aceptar(String arg) {
 		String cadena="Alex";
 		LOG.info(cadena+" "+arg);
 	}
 	
-	public Boolean evaluar(Integer valor) {
+	public static Boolean evaluar(Integer valor) {
 		Boolean b=valor.compareTo(7)==0;	
 		return b;
 	}
 	
-	public String aplicar(Integer valor) {
+	public static String aplicar(Integer valor) {
 		String valorFinal=valor.toString().concat("Alex");
 		
 		return valorFinal;
 		
 	}
 	
-	public Integer procesar(Integer numero) {
+	public static Integer procesar(Integer numero) {
 		Integer valorFinal=numero+100;
 		return valorFinal;
 	}
