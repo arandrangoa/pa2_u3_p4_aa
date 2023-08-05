@@ -1,10 +1,15 @@
 package com.example.demo.service;
 
+import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.example.demo.modelo.CuentaBancaria;
+import com.example.demo.repository.CuentaBancariaRepoImpl;
 import com.example.demo.repository.ICuentaBancariaRepo;
 
 import jakarta.transaction.Transactional;
@@ -12,6 +17,8 @@ import jakarta.transaction.Transactional.TxType;
 
 @Service
 public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
+	
+	private static final Logger LOG=LoggerFactory.getLogger(CuentaBancariaServiceImpl.class);
 
 	@Autowired
 	private ICuentaBancariaRepo bancariaRepo;
@@ -20,17 +27,35 @@ public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
 	private IPruebaService iPruebaService;
 	
 	@Override
-	//@Transactional
+
 	public void guardar(CuentaBancaria cuentaBancaria) {
 		// TODO Auto-generated method stub
-		System.out.println("Service: "+TransactionSynchronizationManager.isActualTransactionActive());
-		//this.bancariaRepo.insertar(cuentaBancaria);
-		//this.iPruebaService.prueba();
-		//this.iPruebaService.prueba2();
-		//this.iPruebaService.pruebaSupports();
-		//this.iPruebaService.pruebaNotSupported();
-		//this.iPruebaService.pruebaRequired();
-		this.iPruebaService.pruebaRequiresNew();
+		LOG.info("Hilo service: "+Thread.currentThread().getName());
+		//SUMAR RESTAR MULTIPLICAR: LOGICA QUE DEMORA 1 SEGUNDO
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.bancariaRepo.insertar(cuentaBancaria);
+		
+	}
+	
+	@Override
+	public String agregar2(CuentaBancaria cuentaBancaria) {
+		// TODO Auto-generated method stub
+		
+		LOG.info("Hilo service: "+Thread.currentThread().getName());
+		//SUMAR RESTAR MULTIPLICAR: LOGICA QUE DEMORA 1 SEGUNDO
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.bancariaRepo.insertar(cuentaBancaria);
+		return cuentaBancaria.getNumero();
 	}
 	
 	@Transactional(value = TxType.NEVER)
@@ -51,5 +76,7 @@ public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
 		// TODO Auto-generated method stub
 		this.bancariaRepo.actualizar(cuentaBancaria);
 	}
+
+
 
 }

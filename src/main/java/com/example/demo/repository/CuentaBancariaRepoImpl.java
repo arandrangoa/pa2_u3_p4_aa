@@ -1,8 +1,11 @@
 package com.example.demo.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.example.demo.Pa2U3P4AaApplication;
 import com.example.demo.modelo.CuentaBancaria;
 
 import jakarta.persistence.EntityManager;
@@ -14,15 +17,16 @@ import jakarta.transaction.Transactional.TxType;
 @Transactional
 @Repository
 public class CuentaBancariaRepoImpl implements ICuentaBancariaRepo{
+	
+	private static final Logger LOG=LoggerFactory.getLogger(CuentaBancariaRepoImpl.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
 	@Override
-	@Transactional(value = TxType.NEVER)
 	public void insertar(CuentaBancaria cuentaBancaria) {
 		// TODO Auto-generated method stub
-		System.out.println(TransactionSynchronizationManager.isActualTransactionActive());
+		LOG.info("Hilo repository: "+Thread.currentThread().getName());
 		this.entityManager.persist(cuentaBancaria);
 	}
 
